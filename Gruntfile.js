@@ -4,7 +4,7 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     concat: {
       dist: {
-        src: ['public/client/*.js'],
+        src: ['public/**/*.js'],
         dest: 'public/client/client.js',
       },
     },
@@ -25,6 +25,11 @@ module.exports = function(grunt) {
     },
 
     uglify: {
+      my_target: {
+        files: {
+          'public/dist/client.min.js': ['public/client/client.js'],
+        }
+      }
     },
 
     eslint: {
@@ -34,6 +39,15 @@ module.exports = function(grunt) {
     },
 
     cssmin: {
+     options: {
+      shorthandCompacting: false,
+        roundingPrecision: -1
+      },
+      target: {
+        files: {
+          'public/dist/style.min.css' : ['public/style.css'] 
+        }
+      }  
     },
 
     watch: {
