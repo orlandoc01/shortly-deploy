@@ -3,7 +3,7 @@ var partials = require('express-partials');
 var util = require('./lib/utility');
 
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/shortly');
+mongoose.connect('mongodb://127.0.0.1/shortly');
 
 var handler = require('./lib/request-handler');
 
