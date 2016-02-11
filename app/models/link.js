@@ -14,8 +14,14 @@ var urlSchema = new mongoose.Schema({
   baseUrl: String,
   code: String,
   title: String,
-  visits: Number,
-  createdAt: Date
+  visits: {
+    type: Number,
+    default: 0
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now
+  } 
 });
 
 urlSchema.pre('save', function(next) {
@@ -26,18 +32,6 @@ urlSchema.pre('save', function(next) {
 });
 
 var Link = mongoose.model('Link', urlSchema);
-
-
-// var Link = function(params) {
-//   mongoose.model('Link', urlSchema).call(this, params);
-// }
-
-
-
- 
-      // var shasum = crypto.createHash('sha1');
-      // shasum.update(url);
-      // var code = shasum.digest('hex').slice(0, 5);
 
 
 module.exports = Link;
