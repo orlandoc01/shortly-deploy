@@ -2,10 +2,14 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+
+
+    clean: ["public/dist"],
+
     concat: {
       dist: {
         src: ['public/**/*.js'],
-        dest: 'public/client/client.js',
+        dest: 'public/dist/client.js',
       },
     },
 
@@ -27,7 +31,7 @@ module.exports = function(grunt) {
     uglify: {
       my_target: {
         files: {
-          'public/dist/client.min.js': ['public/client/client.js'],
+          'public/dist/client.min.js': ['public/dist/client.js'],
         }
       }
     },
@@ -55,6 +59,9 @@ module.exports = function(grunt) {
           'public/lib/**/*.js',
         ],
         tasks: [
+          'eslint',
+          'test',
+          'clean',
           'concat',
           'uglify'
         ]
@@ -88,6 +95,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-nodemon');
   grunt.loadNpmTasks('grunt-git');
+  grunt.loadNpmTasks('grunt-contrib-clean');
+
 
   grunt.registerTask('server-dev', function (target) {
     // Running nodejs in a different process and displaying output on the main console
@@ -116,13 +125,21 @@ module.exports = function(grunt) {
 
   grunt.registerTask('upload', function(n) {
     if (grunt.option('prod')) {
-      // add your production server task here
+      grunt.task.run([ 'gitpush' ]);
     } else {
       grunt.task.run([ 'server-dev' ]);
     }
   });
 
-  grunt.registerTask('deploy', ['gitpush']);
+  grunt.registerTask('deploy', [
+    'clean',
+    'eslint',
+    'concat',
+    'uglify',
+    'cssmin',
+    'test',
+    'upload'
+  ]);
 
   grunt.registerTask('start', ['nodemon']);
 
