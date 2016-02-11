@@ -7,6 +7,9 @@ module.exports = function(grunt) {
     clean: ["public/dist"],
 
     concat: {
+      options: {
+        separator: ';',
+      },
       dist: {
         src: ['public/**/*.js'],
         dest: 'public/dist/client.js',
@@ -29,6 +32,9 @@ module.exports = function(grunt) {
     },
 
     uglify: {
+      options:{
+        mangle: false
+      },
       my_target: {
         files: {
           'public/dist/client.min.js': ['public/dist/client.js'],
